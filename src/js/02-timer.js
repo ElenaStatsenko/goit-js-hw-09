@@ -25,34 +25,34 @@ const refs = {
    refs.btnStart.addEventListener('click', onClick);
 
    function onClick(){
-
-    
     const currentDate = new Date();
     console.log(currentDate);
 
-
-    const inputDate = refs.datePiker.value;
+    const selectedDate = refs.datePiker.value;
     console.log(refs.datePiker.value);
 
-
-    const dateForHTML = inputDate - currentDate;
-    console.log(dateForHTML);
-    
-
+    // const dateForHTML = selectedDate - currentDate;
+    // console.log(dateForHTML);
+   
    }
 
-// const timer ={
-//     start() {
-//         const startTime = Date.now();
-//         console.log(startTime);
-
-//         setInterval(() =>{
-//             const currentTime = Date.now();
-            
-
-//         }
-
-//         )
-//     }
-// }
-
+  //  function convertMs(ms) {
+  //   // Number of milliseconds per unit of time
+  //   const second = 1000;
+  //   const minute = second * 60;
+  //   const hour = minute * 60;
+  //   const day = hour * 24;
+  
+  //   // Remaining days
+  //   const days = Math.floor(ms / day);
+  //   // Remaining hours
+  //   const hours = Math.floor((ms % day) / hour);
+  //   // Remaining minutes
+  //   const minutes = Math.floor(((ms % day) % hour) / minute);
+  //   // Remaining seconds
+  //   const seconds = Math.floor((((ms % day) % hour) % minute) / second);
+  
+  //   return { days, hours, minutes, seconds };
+  // }
+  
+//  refs.timer.textContent = `${convertMs.days}:${convertMs.hours}:${convertMs.minutes}:${convertMs.seconds}`;
