@@ -1,8 +1,6 @@
 
 
 import flatpickr from "flatpickr";
-
-import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import "flatpickr/dist/flatpickr.min.css";
 
 
@@ -13,10 +11,18 @@ const options = {
     minuteIncrement: 1,
     onClose(selectedDates) {
       console.log(selectedDates[0]);
+      if(selectedDates[0] < new Date()) {
+        window.alert('Please choose a date in the future');
+        refs.btnStart.disabled = true;
+      } else {
+        refs.btnStart.disabled = false;
+      }
     },
   };  
+
 flatpickr("input#datetime-picker", options);
-   console.log(options);    
+   console.log(options); 
+
   const refs = {
     datePiker: document.querySelector('#datetime-picker'),
     btnStart: document.querySelector('button[data-start]'),
@@ -27,30 +33,38 @@ flatpickr("input#datetime-picker", options);
     seconds: document.querySelector('span[data-seconds]'),
   };
   
-  // window.addEventListener('keydown', e => {
-  //   if(finishDate < currentDate) {
-  //     alert('Please choose a date in the future');
-  //   };
-  //     refs.days.textContent = '00';
-  //     refs.hours.textContent = '00';
-  //     refs.minutes.textContent = '00';
-  //     refs.seconds.textContent = '00';
-  //   }
-  // );
+   timerId = null;
 
    refs.btnStart.addEventListener('click', onBtnStart);
 
+
    function onBtnStart() {
-    setInterval(() => {
-    difference().convertMs();
-   }, 10000)
-   }
-   function difference() {
+
+
+    timerId = setInterval(() => {
+
+    const finishDate = refs.datePiker.value;
+    
     const currentDate = new Date();
-    const finishDate = Date.parse(refs.datePiker.value);
-    const deltaTime = finishDate - currentDate;
-   }
+ 
+    const finishParseDate = Date.parse(finishDate);
    
+    const deltaTime = finishParseDate - currentDate;
+
+    convertMs(deltaTime);
+
+    console.log(convertMs(deltaTime));
+
+    const object = convertMs(deltaTime);
+
+    renderMarkup (object);
+
+    }, 1000)
+    
+    }
+
+   
+
 
    function convertMs(ms) {
     // Number of milliseconds per unit of time
@@ -69,10 +83,17 @@ flatpickr("input#datetime-picker", options);
     const seconds = Math.floor((((ms % day) % hour) % minute) / second);
   
     return { days, hours, minutes, seconds };
-      
+  }
+ 
+  function renderMarkup ({ days, hours, minutes, seconds }) {
+    refs.days.textContent = addZero(days);
+    refs.hours.textContent =addZero(hours);
+    refs.minutes.textContent = addZero(minutes);
+    refs.seconds.textContent = addZero(seconds);
+    
+  }
+    
+  function addZero(number) {
+    return String(number).padStart(2, 0);
   };
-  // function addZero(number) {
-  //   return String(number).padStart(2, 0);
-  // };
   
-  // refs.timer.textContent = `${convertMs.addZero(convertMs.days)}:${convertMs.addZero(convertMs.hours)}:${convertMs.addZero(convertMs.minutes)}:${convertMs.addZero(convertMs.seconds)}`;
