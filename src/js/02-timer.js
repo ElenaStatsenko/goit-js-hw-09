@@ -2,6 +2,7 @@
 
 import flatpickr from "flatpickr";
 
+import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import "flatpickr/dist/flatpickr.min.css";
 
 
@@ -20,21 +21,36 @@ flatpickr("input#datetime-picker", options);
     datePiker: document.querySelector('#datetime-picker'),
     btnStart: document.querySelector('button[data-start]'),
     timer: document.querySelector('.timer'),
+    days: document.querySelector('span[data-days]'),
+    hours: document.querySelector('span[data-hours]'),
+    minutes: document.querySelector('span[data-minutes]'),
+    seconds: document.querySelector('span[data-seconds]'),
   };
   
+  // window.addEventListener('keydown', e => {
+  //   if(finishDate < currentDate) {
+  //     alert('Please choose a date in the future');
+  //   };
+  //     refs.days.textContent = '00';
+  //     refs.hours.textContent = '00';
+  //     refs.minutes.textContent = '00';
+  //     refs.seconds.textContent = '00';
+  //   }
+  // );
 
-   refs.btnStart.addEventListener('click', onClick);
+   refs.btnStart.addEventListener('click', onBtnStart);
 
-   function onClick() {
+   function onBtnStart() {
     setInterval(() => {
+    difference().convertMs();
+   }, 10000)
+   }
+   function difference() {
     const currentDate = new Date();
     const finishDate = Date.parse(refs.datePiker.value);
     const deltaTime = finishDate - currentDate;
-  // const {day, hour, minute, second} = convertMs(ms);
-  // console.log(`${convertMs.days}:${convertMs.hours}:${convertMs.minutes}:${convertMs.seconds}`);
-   }, 10000)
-  
    }
+   
 
    function convertMs(ms) {
     // Number of milliseconds per unit of time
@@ -55,8 +71,8 @@ flatpickr("input#datetime-picker", options);
     return { days, hours, minutes, seconds };
       
   };
-  function addZero(number) {
-    return String(number).padStart(2, 0);
-  };
+  // function addZero(number) {
+  //   return String(number).padStart(2, 0);
+  // };
   
-  refs.timer.textContent = `${convertMs.addZero(convertMs.days)}:${convertMs.addZero(convertMs.hours)}:${convertMs.addZero(convertMs.minutes)}:${convertMs.addZero(convertMs.seconds)}`;
+  // refs.timer.textContent = `${convertMs.addZero(convertMs.days)}:${convertMs.addZero(convertMs.hours)}:${convertMs.addZero(convertMs.minutes)}:${convertMs.addZero(convertMs.seconds)}`;
