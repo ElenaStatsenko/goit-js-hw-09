@@ -32,26 +32,28 @@ flatpickr("input#datetime-picker", options);
     minutes: document.querySelector('span[data-minutes]'),
     seconds: document.querySelector('span[data-seconds]'),
   };
-  
+   let deltaTime= "";
    timerId = null;
 
    refs.btnStart.addEventListener('click', onBtnStart);
 
-
    function onBtnStart() {
+    
+    timerId = setInterval(updateTimer, 1000);
+  
+  }
 
-
-    timerId = setInterval(() => {
-
-    const finishDate = refs.datePiker.value;
+   function updateTimer(){
+    const finishDate = Date.parse(refs.datePiker.value);
     
     const currentDate = new Date();
- 
-    const finishParseDate = Date.parse(finishDate);
    
-    const deltaTime = finishParseDate - currentDate;
+   let deltaTime = finishDate - currentDate;
 
     convertMs(deltaTime);
+    if (deltaTime <= 1000) {
+      clearInterval(timerId);
+    }
 
     console.log(convertMs(deltaTime));
 
@@ -59,11 +61,8 @@ flatpickr("input#datetime-picker", options);
 
     renderMarkup (object);
 
-    }, 1000)
-    
-    }
-
-   
+   }
+  
 
 
    function convertMs(ms) {
@@ -86,12 +85,15 @@ flatpickr("input#datetime-picker", options);
   }
  
   function renderMarkup ({ days, hours, minutes, seconds }) {
+   
     refs.days.textContent = addZero(days);
     refs.hours.textContent =addZero(hours);
     refs.minutes.textContent = addZero(minutes);
     refs.seconds.textContent = addZero(seconds);
     
-  }
+  };
+    
+  
     
   function addZero(number) {
     return String(number).padStart(2, 0);
