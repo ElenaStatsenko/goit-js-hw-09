@@ -50,7 +50,7 @@ flatpickr("input#datetime-picker", options);
    
    let deltaTime = finishDate - currentDate;
 
-    convertMs(deltaTime);
+    convertMs(deltaTime);  
     if (deltaTime <= 1000) {
       clearInterval(timerId);
     }
